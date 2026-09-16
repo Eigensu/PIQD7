@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PIQD7 Palette Directions</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+    :root {
+      --ink: #18201d;
+      --muted: #67716b;
+      --paper: #f4f2ed;
+      --line: rgba(24, 32, 29, .13);
+      --display: 'Playfair Display', Georgia, serif;
+      --sans: 'Manrope', Arial, sans-serif;
+      --mono: 'DM Mono', Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--sans);
+    }
+
+    .page {
+      width: min(1440px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 52px 0 80px;
+    }
+
+    .intro {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 32px;
+      padding-bottom: 42px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow, .meta, .option-number {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 700px;
+      margin: 14px 0 0;
+      font-family: var(--display);
+      font-size: clamp(42px, 6vw, 82px);
+      line-height: .96;
+      letter-spacing: -.04em;
+      font-weight: 600;
+    }
+
+    .intro p {
+      max-width: 310px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 42px 24px;
+      padding-top: 42px;
+    }
+
+    .option {
+      --accent: #ed5c42;
+      --accent-ink: #fff9f0;
+      --surface: #fff9f0;
+      --surface-2: #eadfd2;
+      --dark: #1e2824;
+      overflow: hidden;
+      min-width: 0;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .option.wide { grid-column: span 2; }
+
+    .option-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 20px 22px 18px;
+      background: var(--surface);
+    }
+
+    .option h2 {
+      margin: 6px 0 0;
+      font-family: var(--display);
+      font-size: 30px;
+      line-height: 1;
+      font-weight: 600;
+    }
+
+    .swatches { display: flex; gap: 7px; }
+    .swatch {
+      width: 24px;
+      height: 24px;
+      border: 1px solid rgba(0,0,0,.12);
+      border-radius: 50%;
+    }
+
+    .preview {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(130px, .75fr) minmax(190px, 1.25fr);
+      min-height: 320px;
+      overflow: hidden;
+      color: var(--dark);
+      background: var(--surface-2);
+    }
+
+    .preview-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 22px;
+    }
+
+    .preview-copy .meta { color: currentColor; opacity: .65; }
+    .preview-copy h3 {
+      max-width: 230px;
+      margin: 22px 0 0;
+      font-family: var(--display);
+      font-size: clamp(27px, 3vw, 42px);
+      line-height: .96;
+      letter-spacing: -.035em;
+      font-weight: 600;
+    }
+
+    .preview-copy p {
+      max-width: 220px;
+      margin: 16px 0 0;
+      font-size: 12px;
+      line-height: 1.5;
+      opacity: .72;
+    }
+
+    .preview-image {
+      position: relative;
+      min-height: 320px;
+      background: var(--image-bg);
+      isolation: isolate;
+    }
+
+    .preview-image::before,
+    .preview-image::after {
+      position: absolute;
+      content: '';
+      display: block;
+    }
+
+    .preview-image::before {
+      width: 58%;
+      height: 116%;
+      left: 22%;
+      top: -6%;
+      z-index: -1;
+      border-radius: 48% 48% 14% 14%;
+      background: var(--image-main);
+      transform: rotate(8deg);
+    }
+
+    .preview-image::after {
+      width: 45%;
+      height: 26%;
+      left: 27%;
+      bottom: 8%;
+      border-radius: 50%;
+      background: var(--image-detail);
+      box-shadow: 0 -160px 0 -40px var(--image-detail);
+      opacity: .88;
+    }
+
+    .image-label {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      z-index: 2;
+      color: var(--accent-ink);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+    }
+
+    .option-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 22px;
+      color: var(--accent-ink);
+      background: var(--dark);
+    }
+
+    .option-foot span { font-size: 12px; opacity: .7; }
+    .buttons { display: flex; gap: 8px; }
+    button {
+      min-width: 70px;
+      padding: 9px 13px;
+      border: 1px solid currentColor;
+      border-radius: 99px;
+      color: inherit;
+      background: transparent;
+      font: 600 11px var(--sans);
+      letter-spacing: .03em;
+    }
+    button.primary { color: var(--dark); background: var(--accent); border-color: var(--accent); }
+
+    /* Palette directions */
+    .terracotta { --accent: #e85e3f; --accent-ink: #fff8ee; --surface: #fff8ee; --surface-2: #e9cbb6; --dark: #27302b; --image-bg: #b36c51; --image-main: #f1dfca; --image-detail: #713e37; }
+    .cobalt { --accent: #e8ff4f; --accent-ink: #f7f7f2; --surface: #f7f7f2; --surface-2: #cbd8e4; --dark: #152b57; --image-bg: #2c5eb1; --image-main: #e8ff4f; --image-detail: #f3d7c4; }
+    .citrus { --accent: #ff6b35; --accent-ink: #fffdf3; --surface: #fffdf3; --surface-2: #e8e5c9; --dark: #233f38; --image-bg: #b3c6a0; --image-main: #ffecd1; --image-detail: #de553b; }
+    .plum { --accent: #e9a9d1; --accent-ink: #fff9f5; --surface: #fff9f5; --surface-2: #dbcbdc; --dark: #39213b; --image-bg: #88608b; --image-main: #f1d6d1; --image-detail: #e9a9d1; }
+    .ocean { --accent: #ee704c; --accent-ink: #f8fbf7; --surface: #f8fbf7; --surface-2: #c4dcd8; --dark: #123c47; --image-bg: #5d9d9d; --image-main: #f4eee1; --image-detail: #ee704c; }
+    .ink { --accent: #d6f25b; --accent-ink: #faf9f4; --surface: #faf9f4; --surface-2: #c9c8bf; --dark: #171717; --image-bg: #44463f; --image-main: #d6f25b; --image-detail: #faf9f4; }
+    .marigold { --accent: #f2a13b; --accent-ink: #fffaf0; --surface: #fffaf0; --surface-2: #e4d6b4; --dark: #442d23; --image-bg: #b9a265; --image-main: #f4dfb9; --image-detail: #9b4734; }
+
+    @media (max-width: 760px) {
+      .page { width: min(100% - 28px, 600px); padding-top: 28px; }
+      .intro { display: block; padding-bottom: 30px; }
+      .intro p { margin-top: 24px; }
+      .options { display: block; padding-top: 28px; }
+      .option { margin-bottom: 24px; }
+      .option.wide { grid-column: auto; }
+      .preview { grid-template-columns: 44% 56%; min-height: 290px; }
+      .preview-image { min-height: 290px; }
+      .preview-copy { padding: 18px; }
+      .preview-copy h3 { font-size: 29px; }
+      .option-foot { padding: 14px 18px; }
+      .option-head { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="intro">
+      <div>
+        <div class="eyebrow">PIQD7 / visual direction study</div>
+        <h1>Seven moods<br>for one drop.</h1>
+      </div>
+      <p>Palette options for a weekly independent fashion discovery experience. Each direction keeps the product editorial, energetic, and easy to scan on mobile.</p>
+    </header>
+
+    <section class="options" aria-label="PIQD7 colour palette options">
+      <article class="option terracotta">
+        <header class="option-head"><div><div class="option-number">01 / warm editorial</div><h2>Terracotta<br>Studio</h2></div><div class="swatches"><i class="swatch" style="background:#e85e3f"></i><i class="swatch" style="background:#fff8ee"></i><i class="swatch" style="background:#27302b"></i></div></header>
+        <div class="preview"><div class="preview-copy"><div><div class="meta">Drop 01 / 07</div><h3>Lilavai<br>objects</h3><p>Made slowly in small batches from a sunlit studio in Jaipur.</p></div><div class="meta">Independent / 2026</div></div><div class="preview-image"><span class="image-label">featured brand</span></div></div>
+        <footer class="option-foot"><span>Warm, tactile, considered</span><div class="buttons"><button>Pass</button><button class="primary">Piq</button></div></footer>
+      </article>
+
+      <article class="option cobalt">
+        <header class="option-head"><div><div class="option-number">02 / sharp contrast</div><h2>Cobalt<br>Signal</h2></div><div class="swatches"><i class="swatch" style="background:#2c5eb1"></i><i class="swatch" style="background:#e8ff4f"></i><i class="swatch" style="background:#152b57"></i></div></header>
+        <div class="preview"><div class="preview-copy"><div><div class="meta">Drop 01 / 07</div><h3>Ode to<br>form</h3><p>Clothes with a point of view, cut for movement and made to last.</p></div><div class="meta">Independent / 2026</div></div><div class="preview-image"><span class="image-label">featured brand</span></div></div>
+        <footer class="option-foot"><span>Confident, digital, youthful</span><div class="buttons"><button>Pass</button><button class="primary">Piq</button></div></footer>
+      </article>
+
+      <article class="option citrus">
+        <header class="option-head"><div><div class="option-number">03 / botanical energy</div><h2>Citrus<br>Field Notes</h2></div><div class="swatches"><i class="swatch" style="background:#ff6b35"></i><i class="swatch" style="background:#e8e5c9"></i><i class="swatch" style="background:#233f38"></i></div></header>
+        <div class="preview"><div class="preview-copy"><div><div class="meta">Drop 01 / 07</div><h3>Hara<br>practice</h3><p>A bright, grounded wardrobe built around natural texture and joy.</p></div><div class="meta">Independent / 2026</div></div><div class="preview-image"><span class="image-label">featured brand</span></div></div>
+        <footer class="option-foot"><span>Fresh, optimistic, craft-led</span><div class="buttons"><button>Pass</button><button class="primary">Piq</button></div></footer>
+      </article>
+
+      <article class="option plum">
+        <header class="option-head"><div><div class="option-number">04 / soft rebellion</div><h2>Plum<br>After Dark</h2></div><div class="swatches"><i class="swatch" style="background:#88608b"></i><i class="swatch" style="background:#e9a9d1"></i><i class="swatch" style="background:#39213b"></i></div></header>
+        <div class="preview"><div class="preview-copy"><div><div class="meta">Drop 01 / 07</div><h3>House of<br>neon</h3><p>Expressive pieces for the hours after ordinary dressing ends.</p></div><div class="meta">Independent / 2026</div></div><div class="preview-image"><span class="image-label">featured brand</span></div></div>
+        <footer class="option-foot"><span>Unexpected, fashion-forward</span><div class="buttons"><button>Pass</button><button class="primary">Piq</button></div></footer>
+      </article>
+
+      <article class="option ocean wide">
+        <header class="option-head"><div><div class="option-number">05 / coastal modern</div><h2>Ocean<br>Archive</h2></div><div class="swatches"><i class="swatch" style="background:#5d9d9d"></i><i class="swatch" style="background:#ee704c"></i><i class="swatch" style="background:#123c47"></i></div></header>
+        <div class="preview"><div class="preview-copy"><div><div class="meta">Drop 01 / 07</div><h3>Salt /<br>structure</h3><p>Relaxed silhouettes and precise details for a wardrobe that travels well.</p></div><div class="meta">Independent / 2026</div></div><div class="preview-image"><span class="image-label">featured brand</span></div></div>
+        <footer class="option-foot"><span>Calm, premium, quietly distinctive</span><div class="buttons"><button>Pass</button><button class="primary">Piq</button></div></footer>
+      </article>
+
+      <article class="option ink">
+        <header class="option-head"><div><div class="option-number">06 / graphic utility</div><h2>Ink<br>Voltage</h2></div><div class="swatches"><i class="swatch" style="background:#171717"></i><i class="swatch" style="background:#d6f25b"></i><i class="swatch" style="background:#c9c8bf"></i></div></header>
+        <div class="preview"><div class="preview-copy"><div><div class="meta">Drop 01 / 07</div><h3>Uncommon<br>uniform</h3><p>Everyday essentials, sharpened with a little bit of friction.</p></div><div class="meta">Independent / 2026</div></div><div class="preview-image"><span class="image-label">featured brand</span></div></div>
+        <footer class="option-foot"><span>Bold, minimal, street-aware</span><div class="buttons"><button>Pass</button><button class="primary">Piq</button></div></footer>
+      </article>
+
+      <article class="option marigold">
+        <header class="option-head"><div><div class="option-number">07 / heritage remix</div><h2>Marigold<br>Assembly</h2></div><div class="swatches"><i class="swatch" style="background:#f2a13b"></i><i class="swatch" style="background:#e4d6b4"></i><i class="swatch" style="background:#442d23"></i></div></header>
+        <div class="preview"><div class="preview-copy"><div><div class="meta">Drop 01 / 07</div><h3>New<br>heirlooms</h3><p>Old-world techniques, reworked for the life you are living now.</p></div><div class="meta">Independent / 2026</div></div><div class="preview-image"><span class="image-label">featured brand</span></div></div>
+        <footer class="option-foot"><span>Collected, warm, memorable</span><div class="buttons"><button>Pass</button><button class="primary">Piq</button></div></footer>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
