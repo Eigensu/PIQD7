@@ -1,0 +1,27 @@
+{
+  "name": "piqd7",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "type-check": "turbo type-check",
+    "test": "turbo test",
+    "test:e2e": "turbo test:e2e",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,mjs,cjs,ts,tsx,json,css,md,yml,yaml}": "prettier --write",
+    "apps/backend/**/*.{ts,tsx}": "pnpm --filter backend exec eslint --fix",
+    "apps/web/**/*.{ts,tsx}": "pnpm --filter web exec eslint --fix"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^17.5.1",
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.6"
+  }
+}
