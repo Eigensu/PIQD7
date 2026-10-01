@@ -1,4 +1,4 @@
-apps/web/next-env.d.ts
+apps/frontend/next-env.d.ts
 
 # Machine-generated: its exact serialization varies between pnpm releases, so
 # formatting it would make `format:check` depend on who ran `pnpm install` last.
@@ -8,3 +8,5 @@ pnpm-lock.yaml
 # reflow their hand-tuned markup, so they stay out of the formatter.
 /palette-options.html
 /piqd-landing.html
+/piqd-brands.html
+/piqd-register.html
