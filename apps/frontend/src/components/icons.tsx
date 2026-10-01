@@ -1,4 +1,4 @@
-export function Heart({ size = 14 }: { size?: number }) {
+export function Heart({ size = 14 }: Readonly<{ size?: number }>) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true">
       <path
@@ -9,7 +9,7 @@ export function Heart({ size = 14 }: { size?: number }) {
   );
 }
 
-export function Lock({ size = 12 }: { size?: number }) {
+export function Lock({ size = 12 }: Readonly<{ size?: number }>) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true">
       <path
@@ -20,7 +20,7 @@ export function Lock({ size = 12 }: { size?: number }) {
   );
 }
 
-export function GoogleLogo({ size = 18 }: { size?: number }) {
+export function GoogleLogo({ size = 18 }: Readonly<{ size?: number }>) {
   return (
     <svg viewBox="0 0 48 48" width={size} height={size} aria-hidden="true">
       <path

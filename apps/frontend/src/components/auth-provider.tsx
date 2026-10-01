@@ -29,7 +29,9 @@ const AuthContext = createContext<Auth | null>(null);
 
 // The login cookie is httpOnly, so the browser can't read it; ask the API who
 // we are instead. credentials: 'include' sends the cookie cross-origin.
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
@@ -39,10 +41,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     let alive = true;
     fetch(`${API_URL}/auth/me`, { credentials: 'include' })
       .then((res) => (res.ok ? (res.json() as Promise<User>) : null))
-      .catch(() => null)
       .then((u) => {
         if (!alive) return;
         setUser(u);
+        setLoading(false);
+      })
+      .catch(() => {
+        if (!alive) return;
+        setUser(null);
         setLoading(false);
       });
     return () => {

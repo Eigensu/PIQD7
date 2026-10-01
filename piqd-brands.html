@@ -70,7 +70,8 @@
     .brand-card.is-dragging { transition: none; cursor: grabbing; }
     .decision-label { position: absolute; top: 32px; right: 32px; z-index: 3; padding: 10px 14px; border: 2px solid var(--acid); color: var(--acid); font: 500 13px var(--mono); letter-spacing: .12em; opacity: 0; transform: rotate(-10deg) scale(.8); }
     .decision-label.show { opacity: 1; transform: rotate(-10deg) scale(1); }
-    .brand-image { position: absolute; inset: 0 0 0 38%; background: url('https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1200&q=85') center/cover; filter: grayscale(100%) contrast(1.1); }
+    .brand-image { position: absolute; inset: 0 0 0 38%; filter: grayscale(100%) contrast(1.1); }
+    .brand-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
     .brand-image::after { position: absolute; inset: 0; content: ''; background: linear-gradient(90deg, var(--ink) 0%, rgba(23,23,23,.82) 22%, rgba(23,23,23,.04) 70%); }
     .card-content { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; width: 52%; min-height: 560px; padding: 32px; }
     .card-top { display: flex; justify-content: space-between; gap: 15px; color: rgba(245,244,239,.62); font: 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
@@ -210,7 +211,7 @@
         <span class="swipe-hint pass">PASS</span>
         <span class="swipe-hint piq">PIQ</span>
         <article class="brand-card" id="brand-card">
-          <div class="brand-image" role="img" aria-label="Editorial fashion image"></div>
+          <div class="brand-image"><img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1200&q=85" alt="Lilavai studio editorial image"></div>
           <div class="decision-label" id="decision-label">PIQ</div>
           <div class="card-content">
             <div class="card-top"><span id="brand-position">01 / 07</span><span id="brand-location">New Delhi / India</span></div>
@@ -224,7 +225,7 @@
         </article>
       </div>
 
-      <aside class="side-panel">
+      <aside class="side-panel" aria-label="Your weekly edit">
         <div>
           <div class="eyebrow">Your weekly edit</div>
           <h3>Seven cards.<br>Make them count.</h3>
@@ -250,7 +251,7 @@
           <article class="mini-card"><small>04 / 07</small><strong>Form /<br>Function</strong></article>
         </div>
       </div>
-      <aside id="saved" class="saved-panel">
+      <aside id="saved" class="saved-panel" aria-label="Your collection">
         <div class="eyebrow">Your collection</div>
         <h3>The brands<br>you keep.</h3>
         <div class="saved-number" id="saved-number">04</div>
@@ -259,7 +260,7 @@
     </section>
   </main>
   <div class="piq-celebration" id="piq-celebration">PIQ-ed!</div>
-  <div class="toast" id="toast" role="status"></div>
+  <output class="toast" id="toast"></output>
 
   <script>
     const piqButton = document.querySelector('#piq');
@@ -269,7 +270,7 @@
     const piqCelebration = document.querySelector('#piq-celebration');
     const progressLabel = document.querySelector('#progress-label');
     const progressItems = [...document.querySelectorAll('#progress i')];
-    const brandImage = document.querySelector('.brand-image');
+    const brandImage = document.querySelector('.brand-image img');
     const brandPosition = document.querySelector('#brand-position');
     const brandLocation = document.querySelector('#brand-location');
     const brandName = document.querySelector('#brand-name');
@@ -301,7 +302,7 @@
 
     function showPiqCelebration() {
       piqCelebration.classList.remove('show');
-      void piqCelebration.offsetWidth;
+      piqCelebration.getBoundingClientRect(); // force a reflow so the animation restarts
       piqCelebration.classList.add('show');
     }
 
@@ -310,7 +311,10 @@
       progressLabel.textContent = `${String(position).padStart(2, '0')} of 07`;
       brandPosition.textContent = `${String(position).padStart(2, '0')} / 07`;
       progressItems.forEach((item, index) => {
-        item.className = index < currentBrand ? 'seen' : index === currentBrand ? 'current' : '';
+        let state = '';
+        if (index < currentBrand) state = 'seen';
+        else if (index === currentBrand) state = 'current';
+        item.className = state;
       });
     }
 
@@ -320,7 +324,8 @@
       brandSubtitle.textContent = brand.subtitle;
       brandIntro.textContent = brand.intro;
       brandFacts.innerHTML = brand.facts.map((fact) => `<span class="fact">${fact}</span>`).join('');
-      brandImage.style.backgroundImage = `url('https://images.unsplash.com/${brand.image}?auto=format&fit=crop&w=1200&q=85')`;
+      brandImage.src = `https://images.unsplash.com/${brand.image}?auto=format&fit=crop&w=1200&q=85`;
+      brandImage.alt = `${brand.name} ${brand.subtitle} editorial image`;
       updateProgress();
     }
 

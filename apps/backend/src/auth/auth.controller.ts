@@ -58,7 +58,9 @@ export class AuthController {
   // Redirects to Google; the guard does the work.
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  google() {}
+  google() {
+    // Nothing to do: AuthGuard('google') redirects the browser to Google.
+  }
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
