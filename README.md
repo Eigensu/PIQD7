@@ -50,7 +50,7 @@ pnpm --filter backend test:e2e      # end-to-end specs
 ## Layout
 
 - `apps/backend`: NestJS service on port 4000
-- `apps/web`: Next.js frontend on port 3000
+- `apps/frontend`: Next.js frontend on port 3000
 - `packages/eslint-config`: shared ESLint flat config
 - `packages/tsconfig`: shared TypeScript compiler settings
 
@@ -65,5 +65,5 @@ the root:
 They are plain, self-contained HTML with no build step — open either file in a
 browser to view it. They are deliberately excluded from Prettier so they stay
 exactly as authored, and they are independent of the workspace above. To serve
-one through the Next.js app instead, move it into `apps/web/public/` and it
+one through the Next.js app instead, move it into `apps/frontend/public/` and it
 will be available at `/<filename>`.
