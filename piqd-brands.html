@@ -211,7 +211,7 @@
         <span class="swipe-hint pass">PASS</span>
         <span class="swipe-hint piq">PIQ</span>
         <article class="brand-card" id="brand-card">
-          <div class="brand-image"><img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1200&q=85" alt="Lilavai studio editorial photograph"></div>
+          <div class="brand-image"><img src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1200&q=85" alt="Lilavai studio, editorial fashion"></div>
           <div class="decision-label" id="decision-label">PIQ</div>
           <div class="card-content">
             <div class="card-top"><span id="brand-position">01 / 07</span><span id="brand-location">New Delhi / India</span></div>
@@ -325,7 +325,7 @@
       brandIntro.textContent = brand.intro;
       brandFacts.innerHTML = brand.facts.map((fact) => `<span class="fact">${fact}</span>`).join('');
       brandImage.src = `https://images.unsplash.com/${brand.image}?auto=format&fit=crop&w=1200&q=85`;
-      brandImage.alt = `${brand.name} ${brand.subtitle} editorial photograph`;
+      brandImage.alt = `${brand.name} ${brand.subtitle}, editorial fashion`;
       updateProgress();
     }
 
