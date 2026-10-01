@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171717">
+  <title>PIQD7 - Create your account</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+    :root {
+      --ink: #171717;
+      --acid: #d6f25b;
+      --paper: #f5f4ef;
+      --soft: #e4e4dc;
+      --muted: #777971;
+      --line: rgba(23, 23, 23, .15);
+      --display: 'Playfair Display', Georgia, serif;
+      --sans: 'Manrope', Arial, sans-serif;
+      --mono: 'DM Mono', Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { width: 100%; max-width: 100%; overflow-x: clip; }
+    body { width: 100%; max-width: 100%; margin: 0; overflow-x: clip; color: var(--ink); background: var(--paper); font-family: var(--sans); }
+    button { font: inherit; cursor: pointer; }
+    .shell { width: min(1320px, calc(100% - 48px)); margin: 0 auto; }
+
+    .topbar { display: flex; align-items: center; justify-content: space-between; height: 76px; border-bottom: 1px solid var(--line); }
+    .logo { display: flex; align-items: center; gap: 12px; color: var(--ink); text-decoration: none; font-weight: 800; letter-spacing: -.08em; font-size: 24px; }
+    .logo-mark { display: grid; place-items: center; width: 28px; height: 28px; color: var(--ink); background: var(--acid); font: 700 15px var(--mono); letter-spacing: -.12em; }
+    .step-indicator { display: flex; align-items: center; gap: 10px; color: var(--muted); font: 500 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .back-link { color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 700; }
+    .back-link:hover { color: var(--ink); }
+
+    .layout { display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 77px); }
+    .promo { display: flex; flex-direction: column; justify-content: space-between; padding: 60px 56px; color: var(--paper); background: var(--ink); }
+    .promo .eyebrow { color: rgba(245,244,239,.6); font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .promo h1 { max-width: 420px; margin: 20px 0 18px; font: 600 clamp(38px, 4vw, 56px)/.98 var(--display); letter-spacing: -.04em; }
+    .promo h1 span { color: var(--acid); }
+    .promo p { max-width: 340px; color: rgba(245,244,239,.68); font-size: 14px; line-height: 1.65; }
+    .promo-steps { display: grid; gap: 14px; margin-top: 40px; }
+    .promo-step { display: flex; align-items: center; gap: 14px; }
+    .promo-step .dot { display: grid; place-items: center; width: 26px; height: 26px; border: 1px solid rgba(245,244,239,.4); border-radius: 50%; font: 500 11px var(--mono); flex-shrink: 0; }
+    .promo-step.active .dot { color: var(--ink); background: var(--acid); border-color: var(--acid); }
+    .promo-step span.label { font-size: 13px; color: rgba(245,244,239,.85); }
+    .promo-step.active span.label { color: var(--paper); font-weight: 600; }
+    .promo-foot { color: rgba(245,244,239,.5); font: 10px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+
+    .form-side { display: flex; align-items: center; justify-content: center; padding: 56px; }
+    .form-card { width: 100%; max-width: 420px; }
+    .form-card h2 { margin: 0 0 8px; font: 600 34px var(--display); letter-spacing: -.04em; }
+    .form-card .sub { margin: 0 0 34px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+    .field { margin-bottom: 18px; }
+    .field label { display: block; margin-bottom: 8px; font: 700 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+    .field input { width: 100%; padding: 14px 16px; border: 1px solid var(--ink); background: var(--paper); color: var(--ink); font: 14px var(--sans); }
+    .field input:focus { outline: 2px solid var(--acid); outline-offset: -2px; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .hint { margin-top: 6px; color: var(--muted); font-size: 11px; }
+
+    .checkbox-row { display: flex; align-items: start; gap: 10px; margin: 20px 0 26px; }
+    .checkbox-row input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--ink); }
+    .checkbox-row label { color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .checkbox-row a { color: var(--ink); }
+
+    .submit-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 17px; border: 1px solid var(--ink); background: var(--acid); color: var(--ink); font-size: 14px; font-weight: 800; }
+    .submit-btn:hover { background: #e2ff71; }
+
+    .divider { display: flex; align-items: center; gap: 12px; margin: 26px 0; color: var(--muted); font: 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+
+    .alt-actions { display: grid; gap: 10px; }
+    .alt-btn { display: flex; align-items: center; justify-content: center; padding: 14px; border: 1px solid var(--line); background: transparent; color: var(--ink); font-size: 13px; font-weight: 600; }
+    .alt-btn:hover { background: var(--soft); }
+
+    .switch-link { margin-top: 26px; color: var(--muted); font-size: 12px; text-align: center; }
+    .switch-link a { color: var(--ink); font-weight: 700; }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; min-height: auto; }
+      .promo { padding: 40px 24px; }
+      .promo-steps { margin-top: 28px; }
+      .form-side { padding: 40px 24px; }
+    }
+
+    @media (max-width: 480px) {
+      .shell { width: 100vw; max-width: 100vw; padding-right: 16px; padding-left: 16px; }
+      .field-row { grid-template-columns: 1fr; }
+      .form-card h2 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar shell">
+    <a class="logo" href="piqd-landing.html" aria-label="PIQD7 home"><span class="logo-mark">P7</span>PIQD7</a>
+    <div class="step-indicator">Step 01 of 02 &middot; Registration</div>
+    <a class="back-link" href="piqd-landing.html">&larr; Back home</a>
+  </header>
+
+  <main class="layout">
+    <section class="promo">
+      <div>
+        <div class="eyebrow">Drop 01 / seven independent brands</div>
+        <h1>One account.<br>Seven brands<br><span>waiting for you.</span></h1>
+        <p>Your account unlocks this week's drop, saves your Piqs, and remembers what you're into for next week.</p>
+        <div class="promo-steps">
+          <div class="promo-step active"><span class="dot">1</span><span class="label">Create your account</span></div>
+          <div class="promo-step"><span class="dot">2</span><span class="label">Discover this week's drop</span></div>
+        </div>
+      </div>
+      <div class="promo-foot">PIQD7 / Drop 01 / 2026</div>
+    </section>
+
+    <section class="form-side">
+      <div class="form-card">
+        <h2>Create your account</h2>
+        <p class="sub">Takes less than a minute. This unlocks the brand deck for Drop 01.</p>
+
+        <form id="register-form" novalidate>
+          <div class="field-row">
+            <div class="field">
+              <label for="first-name">First name</label>
+              <input id="first-name" type="text" name="first-name" placeholder="Ananya" required>
+            </div>
+            <div class="field">
+              <label for="last-name">Last name</label>
+              <input id="last-name" type="text" name="last-name" placeholder="Rao" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="email">Email address</label>
+            <input id="email" type="email" name="email" placeholder="you@email.com" required>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" placeholder="Minimum 8 characters" required minlength="8">
+            <div class="hint">Use at least 8 characters, with a number.</div>
+          </div>
+
+          <div class="checkbox-row">
+            <input id="terms" type="checkbox" required>
+            <label for="terms">I agree to the <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a>, and to receive updates about future drops.</label>
+          </div>
+
+          <button class="submit-btn" type="submit">Create account &amp; continue -></button>
+        </form>
+
+        <div class="divider">or continue with</div>
+        <div class="alt-actions">
+          <button class="alt-btn" type="button">Continue with Google</button>
+          <button class="alt-btn" type="button">Continue with Apple</button>
+        </div>
+
+        <div class="switch-link">Already have an account? <a href="#signin">Sign in</a></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.querySelector('#register-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      window.location.href = 'piqd-brands.html';
+    });
+  </script>
+</body>
+</html>
