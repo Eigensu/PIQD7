@@ -2,6 +2,9 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { API_URL } from '../lib/api';
+import { GoogleLogo } from './icons';
 
 type Mode = 'register' | 'signin';
 
@@ -30,6 +33,11 @@ export function AuthForm({ mode }: { mode: Mode }) {
   const router = useRouter();
   const c = copy[mode];
   const register = mode === 'register';
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    setFailed(new URLSearchParams(window.location.search).has('error'));
+  }, []);
 
   return (
     <div className="layout">
@@ -146,16 +154,17 @@ export function AuthForm({ mode }: { mode: Mode }) {
             </button>
           </form>
 
+          {failed && (
+            <p className="auth-error" role="alert">
+              Google sign-in didn’t go through. Please try again.
+            </p>
+          )}
+
           <div className="divider">or continue with</div>
           <div className="alt-actions">
-            <button
-              className="alt-btn"
-              type="button"
-              disabled
-              title="Coming soon"
-            >
-              Continue with Google
-            </button>
+            <a className="alt-btn" href={`${API_URL}/auth/google`}>
+              <GoogleLogo /> Continue with Google
+            </a>
             <button
               className="alt-btn"
               type="button"
