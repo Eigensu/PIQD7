@@ -194,7 +194,7 @@
   <script>
     function updateCountdown() {
       const end = new Date('2026-09-20T23:59:59');
-      const remaining = Math.max(0, end - new Date());
+      const remaining = Math.max(0, end - Date.now());
       const days = Math.floor(remaining / 86400000);
       const hours = Math.floor((remaining % 86400000) / 3600000);
       const minutes = Math.floor((remaining % 3600000) / 60000);

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { AuthProvider } from '../components/auth-provider';
 import { SiteProvider } from '../components/site-provider';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
@@ -33,11 +34,13 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <SiteProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </SiteProvider>
+        <AuthProvider>
+          <SiteProvider>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </SiteProvider>
+        </AuthProvider>
       </body>
     </html>
   );
