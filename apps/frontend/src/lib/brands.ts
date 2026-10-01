@@ -9,7 +9,26 @@ export type Brand = {
 };
 
 export const DROP_SIZE = 7;
-export const DROP_ENDS = '2026-09-20T23:59:59';
+export const DROP_NUMBER = '01';
+// When the current drop closes. Bump this (and DROP_NUMBER) for each new drop.
+export const DROP_ENDS = '2026-10-08T23:59:59';
+
+const MONTHS = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+const [endYear, endMonth, endDay] = DROP_ENDS.slice(0, 10).split('-');
+export const DROP_ENDS_LABEL = `${Number(endDay)} ${MONTHS[Number(endMonth) - 1]} ${endYear}`;
 
 export const imageUrl = (photo: string, width: number, quality = 80) =>
   `https://images.unsplash.com/${photo}?auto=format&fit=crop&w=${width}&q=${quality}`;

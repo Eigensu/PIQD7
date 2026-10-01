@@ -2,70 +2,57 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { DROP_SIZE, brands, imageUrl, pad } from '../lib/brands';
+import { DROP_NUMBER, DROP_SIZE, brands, imageUrl, pad } from '../lib/brands';
 import { Heart } from './icons';
 import { useSite } from './site-provider';
 
 type Decision = 'lov' | 'pass';
 
-const peek = [
-  {
-    n: '05',
-    title: ['Form /', 'function.'],
-    place: 'Pune / India',
-    photo: brands[3].image,
-  },
-  {
-    n: '04',
-    title: ['House of', 'Sunday.'],
-    place: 'Bengaluru / India',
-    photo: brands[2].image,
-  },
-  {
-    n: '03',
-    title: ['Common', 'thread.'],
-    place: 'Mumbai / India',
-    photo: brands[1].image,
-  },
-  {
-    n: '02',
-    title: ['Ode to', 'form.'],
-    place: 'Jaipur / India',
-    photo: brands[3].image,
-  },
-];
-
 export function DropDeck() {
   const { edit, lov } = useSite();
   const [index, setIndex] = useState(0);
+  const [done, setDone] = useState(false);
   const [decision, setDecision] = useState<Decision | null>(null);
   const [leaving, setLeaving] = useState(0);
   const [entering, setEntering] = useState(false);
   const [drag, setDrag] = useState(0);
   const [dragging, setDragging] = useState(false);
-  const [toast, setToast] = useState<{ id: number; msg: string } | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
   const [celebrate, setCelebrate] = useState(0);
   const startX = useRef(0);
   const busy = useRef(false);
   const timers = useRef<number[]>([]);
+  const toastTimer = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     const t = timers.current;
-    return () => t.forEach((id) => window.clearTimeout(id));
+    return () => {
+      t.forEach((id) => window.clearTimeout(id));
+      window.clearTimeout(toastTimer.current);
+    };
   }, []);
 
   const later = (fn: () => void, ms: number) => {
     timers.current.push(window.setTimeout(fn, ms));
   };
 
+  // One toast timer: a new toast replaces the old one instead of being
+  // cleared early by the previous toast's timeout.
+  const showToast = (msg: string) => {
+    window.clearTimeout(toastTimer.current);
+    setToast(msg);
+    toastTimer.current = window.setTimeout(() => setToast(null), 2600);
+  };
+
   const brand = brands[index];
-  const position = index + 1;
+  const position = done ? brands.length : index + 1;
 
   const decide = useCallback(
     (type: Decision) => {
-      if (busy.current) return;
+      if (busy.current || done) return;
       busy.current = true;
       const current = brands[index];
+      const last = index === brands.length - 1;
       const dir = type === 'lov' ? 1 : -1;
       setDecision(type);
       setLeaving(dir);
@@ -77,18 +64,23 @@ export function DropDeck() {
         setCelebrate((c) => c + 1);
       }
       const label = `${current.name} ${current.subtitle.replace(/\.$/, '')}`;
-      setToast({
-        id: Date.now(),
-        msg:
-          type === 'lov'
-            ? `${label} was added to Your Edit.`
+      showToast(
+        type === 'lov'
+          ? `${label} was added to Your Edit.`
+          : last
+            ? `${label} passed.`
             : `${label} passed. Next brand coming up.`,
-      });
-      later(() => setToast(null), 2600);
+      );
 
       later(() => {
-        setIndex((i) => (i + 1) % brands.length);
         setLeaving(0);
+        if (last) {
+          setDecision(null);
+          setDone(true);
+          busy.current = false;
+          return;
+        }
+        setIndex((i) => i + 1);
         setEntering(true);
         window.requestAnimationFrame(() =>
           window.requestAnimationFrame(() => {
@@ -99,8 +91,14 @@ export function DropDeck() {
         );
       }, 430);
     },
-    [index, lov],
+    [index, done, lov],
   );
+
+  const startOver = () => {
+    setDone(false);
+    setIndex(0);
+    setDecision(null);
+  };
 
   const cardStyle: React.CSSProperties = leaving
     ? {
@@ -126,11 +124,19 @@ export function DropDeck() {
   const shownLabel = decision ?? dragLabel;
   const others = brands.filter((b) => b.id !== brand.id).slice(0, 3);
 
+  // The cards waiting behind the current one: the next brands in the drop,
+  // drawn farthest first so the nearest ends up on top.
+  const upcoming = done
+    ? []
+    : [3, 2, 1]
+        .map((depth) => ({ depth, b: brands[index + depth] }))
+        .filter((u) => u.b);
+
   return (
     <>
       <section className="page-head">
         <div className="eyebrow">
-          Drop 01 / seven independent brands / unlocked
+          Drop {DROP_NUMBER} / seven independent brands / unlocked
         </div>
         <h1>
           Your drop is <em>live.</em>
@@ -147,85 +153,121 @@ export function DropDeck() {
         aria-label="Current brand drop"
       >
         <div className="card-stack">
-          {peek.map((p, i) => (
+          {upcoming.map(({ depth, b }) => (
             <article
               className="peek-card"
-              key={p.n}
-              style={{
-                ['--i' as string]: i,
-                backgroundImage: `url('${imageUrl(p.photo, 900)}')`,
-              }}
+              data-depth={depth}
+              key={b.id}
+              style={{ backgroundImage: `url('${imageUrl(b.image, 900)}')` }}
             >
-              <small>{p.n} / 07</small>
+              <small>{pad(brands.indexOf(b) + 1)} / 07</small>
               <div>
                 <strong>
-                  {p.title[0]}
+                  {b.name}
                   <br />
-                  {p.title[1]}
+                  {b.subtitle}
                 </strong>
-                <span>{p.place}</span>
+                <span>{b.location}</span>
               </div>
             </article>
           ))}
-          <span className="swipe-hint pass">PASS</span>
-          <span className="swipe-hint lov">LOV</span>
-          <article
-            className={`brand-card${dragging ? ' is-dragging' : ''}`}
-            style={cardStyle}
-            onPointerDown={(e) => {
-              if (busy.current) return;
-              startX.current = e.clientX;
-              setDragging(true);
-              e.currentTarget.setPointerCapture(e.pointerId);
-            }}
-            onPointerMove={(e) => {
-              if (dragging) setDrag(e.clientX - startX.current);
-            }}
-            onPointerUp={() => {
-              if (!dragging) return;
-              setDragging(false);
-              if (Math.abs(drag) > 90) decide(drag > 0 ? 'lov' : 'pass');
-              else setDrag(0);
-            }}
-            onPointerCancel={() => {
-              setDragging(false);
-              setDrag(0);
-            }}
-          >
-            <div
-              className="brand-image"
-              role="img"
-              aria-label={`${brand.name} ${brand.subtitle} editorial image`}
-              style={{
-                backgroundImage: `url('${imageUrl(brand.image, 1200, 85)}')`,
-              }}
-            />
-            <div className={`decision-label${shownLabel ? ' show' : ''}`}>
-              {shownLabel === 'pass' ? 'PASS' : 'LOV'}
-            </div>
-            <div className="card-content">
+          {!done && (
+            <>
+              <span className="swipe-hint pass">PASS</span>
+              <span className="swipe-hint lov">LOV</span>
+            </>
+          )}
+          {done ? (
+            <article className="deck-done">
               <div className="card-top">
-                <span>{pad(position)} / 07</span>
-                <span>{brand.location}</span>
+                <span>End of the drop</span>
+                <span>
+                  {pad(brands.length)} / {pad(DROP_SIZE)}
+                </span>
               </div>
               <div>
                 <h2>
-                  <span>{brand.name}</span> <em>{brand.subtitle}</em>
+                  That&rsquo;s the <em>drop.</em>
                 </h2>
-                <p className="brand-intro">{brand.intro}</p>
-                <div className="facts">
-                  {brand.facts.map((f) => (
-                    <span className="fact" key={f}>
-                      {f}
-                    </span>
-                  ))}
+                <p>
+                  You&rsquo;ve been through every card we have.{' '}
+                  {edit.length
+                    ? `Your Edit has ${pad(edit.length)} ${edit.length === 1 ? 'brand' : 'brands'} in it.`
+                    : 'You didn’t lov anything this time.'}
+                </p>
+                <div className="done-actions">
+                  <Link className="btn btn-primary" href="/edit">
+                    Open Your Edit <span aria-hidden="true">→</span>
+                  </Link>
+                  <button
+                    type="button"
+                    className="btn btn-light"
+                    onClick={startOver}
+                  >
+                    Start over
+                  </button>
                 </div>
               </div>
-            </div>
-            <span className="image-credit">
-              Brand {pad(position)} / Just Lovedit
-            </span>
-          </article>
+            </article>
+          ) : (
+            <article
+              className={`brand-card${dragging ? ' is-dragging' : ''}`}
+              style={cardStyle}
+              onPointerDown={(e) => {
+                if (busy.current) return;
+                startX.current = e.clientX;
+                setDragging(true);
+                e.currentTarget.setPointerCapture(e.pointerId);
+              }}
+              onPointerMove={(e) => {
+                if (dragging) setDrag(e.clientX - startX.current);
+              }}
+              onPointerUp={() => {
+                if (!dragging) return;
+                setDragging(false);
+                if (Math.abs(drag) > 90) decide(drag > 0 ? 'lov' : 'pass');
+                else setDrag(0);
+              }}
+              onPointerCancel={() => {
+                setDragging(false);
+                setDrag(0);
+              }}
+            >
+              <div
+                className="brand-image"
+                role="img"
+                aria-label={`${brand.name} ${brand.subtitle} editorial image`}
+                style={{
+                  backgroundImage: `url('${imageUrl(brand.image, 1200, 85)}')`,
+                }}
+              />
+              <div className={`decision-label${shownLabel ? ' show' : ''}`}>
+                {shownLabel === 'pass' ? 'PASS' : 'LOV'}
+              </div>
+              <div className="card-content">
+                <div className="card-top">
+                  <span>{pad(position)} / 07</span>
+                  <span>{brand.location}</span>
+                </div>
+                <div>
+                  <h2>
+                    <span>{brand.name}</span> <em>{brand.subtitle}</em>
+                  </h2>
+                  <p className="brand-intro">{brand.intro}</p>
+                  <div className="facts">
+                    {brand.facts.map((f) => (
+                      <span className="fact" key={f}>
+                        {f}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <span className="image-credit">
+                Brand {pad(position)} / Just Lovedit
+              </span>
+            </article>
+          )}
         </div>
 
         <aside className="side-panel">
@@ -251,7 +293,11 @@ export function DropDeck() {
                   <i
                     key={i}
                     className={
-                      i < index ? 'seen' : i === index ? 'current' : ''
+                      i < index || (done && i < brands.length)
+                        ? 'seen'
+                        : i === index && !done
+                          ? 'current'
+                          : ''
                     }
                   />
                 ))}
@@ -262,6 +308,7 @@ export function DropDeck() {
             <button
               type="button"
               className="action primary"
+              disabled={done}
               onClick={() => decide('lov')}
             >
               <strong>Lov it</strong>
@@ -270,6 +317,7 @@ export function DropDeck() {
             <button
               type="button"
               className="action"
+              disabled={done}
               onClick={() => decide('pass')}
             >
               <strong>Pass for now</strong>
@@ -331,7 +379,7 @@ export function DropDeck() {
             <span className="toast-heart">
               <Heart size={11} />
             </span>
-            {toast.msg}
+            {toast}
           </>
         )}
       </div>

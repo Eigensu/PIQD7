@@ -8,3 +8,5 @@ pnpm-lock.yaml
 # reflow their hand-tuned markup, so they stay out of the formatter.
 /palette-options.html
 /piqd-landing.html
+/piqd-brands.html
+/piqd-register.html

@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { DROP_ENDS, pad } from '../lib/brands';
+import { DROP_ENDS, DROP_ENDS_LABEL, DROP_NUMBER, pad } from '../lib/brands';
 
 function remaining() {
   const ms = Math.max(0, new Date(DROP_ENDS).getTime() - Date.now());
   return {
+    closed: ms === 0,
     days: Math.floor(ms / 86400000),
     hours: Math.floor((ms % 86400000) / 3600000),
     minutes: Math.floor((ms % 3600000) / 60000),
@@ -24,7 +25,9 @@ export function Countdown() {
   const v = (n?: number) => (n === undefined ? '--' : pad(n));
   return (
     <div className="countdown-box">
-      <div className="label">Drop closes in</div>
+      <div className="countdown-label">
+        {t?.closed ? 'Drop closed' : 'Drop closes in'}
+      </div>
       <div className="countdown" aria-label="Countdown">
         <span>
           {v(t?.days)}
@@ -46,11 +49,11 @@ export function Countdown() {
 export function DropStamp() {
   return (
     <div className="drop-stamp" aria-hidden="true">
-      <strong>01</strong>
+      <strong>{DROP_NUMBER}</strong>
       <span>
         Live until
         <br />
-        20 Sep 2026
+        {DROP_ENDS_LABEL}
       </span>
     </div>
   );

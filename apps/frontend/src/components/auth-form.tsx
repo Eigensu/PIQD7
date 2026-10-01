@@ -47,13 +47,15 @@ export function AuthForm({ mode }: { mode: Mode }) {
           <div className="promo-steps">
             <div className="promo-step active">
               <span className="dot">1</span>
-              <span className="label">
+              <span className="step-label">
                 {register ? 'Create your account' : 'Sign in'}
               </span>
             </div>
             <div className="promo-step">
               <span className="dot">2</span>
-              <span className="label">Discover this week&rsquo;s drop</span>
+              <span className="step-label">
+                Discover this week&rsquo;s drop
+              </span>
             </div>
           </div>
         </div>
@@ -146,10 +148,20 @@ export function AuthForm({ mode }: { mode: Mode }) {
 
           <div className="divider">or continue with</div>
           <div className="alt-actions">
-            <button className="alt-btn" type="button">
+            <button
+              className="alt-btn"
+              type="button"
+              disabled
+              title="Coming soon"
+            >
               Continue with Google
             </button>
-            <button className="alt-btn" type="button">
+            <button
+              className="alt-btn"
+              type="button"
+              disabled
+              title="Coming soon"
+            >
               Continue with Apple
             </button>
           </div>
