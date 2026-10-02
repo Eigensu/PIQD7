@@ -165,14 +165,6 @@ export function AuthForm({ mode }: { mode: Mode }) {
             <a className="alt-btn" href={`${API_URL}/auth/google`}>
               <GoogleLogo /> Continue with Google
             </a>
-            <button
-              className="alt-btn"
-              type="button"
-              disabled
-              title="Coming soon"
-            >
-              Continue with Apple
-            </button>
           </div>
 
           <div className="switch-link">
