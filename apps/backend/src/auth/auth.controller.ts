@@ -47,10 +47,11 @@ export class AuthController {
   ) {}
 
   private cookieOptions(): CookieOptions {
+    const prod = this.config.get('NODE_ENV') === 'production';
     return {
       httpOnly: true,
-      sameSite: 'lax',
-      secure: this.config.get('NODE_ENV') === 'production',
+      sameSite: prod ? 'none' : 'lax',
+      secure: prod,
       path: '/',
     };
   }
