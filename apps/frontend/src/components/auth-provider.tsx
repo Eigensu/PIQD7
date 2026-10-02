@@ -1,22 +1,17 @@
 'use client';
 
+import { createContext, useCallback, useContext, useMemo } from 'react';
 import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { API_URL } from '../lib/api';
-import { isPublicPath } from '../lib/auth-routes';
+  SessionProvider,
+  useSession,
+  signOut as nextSignOut,
+} from 'next-auth/react';
 
 export type User = {
   id: string;
   email: string;
   name?: string;
-  picture?: string;
+  image?: string;
 };
 
 type Auth = {
@@ -27,60 +22,38 @@ type Auth = {
 
 const AuthContext = createContext<Auth | null>(null);
 
-// The login cookie is httpOnly, so the browser can't read it; ask the API who
-// we are instead. credentials: 'include' sends the cookie cross-origin.
-export function AuthProvider({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const pathname = usePathname();
-  const router = useRouter();
+function AuthState({ children }: { children: React.ReactNode }) {
+  const { data: session, status } = useSession();
 
-  useEffect(() => {
-    let alive = true;
-    fetch(`${API_URL}/auth/me`, { credentials: 'include' })
-      .then((res) => (res.ok ? (res.json() as Promise<User>) : null))
-      .then((u) => {
-        if (!alive) return;
-        setUser(u);
-        setLoading(false);
-      })
-      .catch(() => {
-        if (!alive) return;
-        setUser(null);
-        setLoading(false);
-      });
-    return () => {
-      alive = false;
-    };
-  }, []);
-
-  // Sign-in first. The proxy already redirects visitors with no cookie; this
-  // covers an expired/invalid cookie (API says 401) and signed-in visitors
-  // landing on /signin.
-  useEffect(() => {
-    if (loading) return;
-    if (!user && !isPublicPath(pathname)) router.replace('/signin');
-    else if (user && pathname === '/signin') router.replace('/brands');
-  }, [loading, user, pathname, router]);
+  const user = session?.user
+    ? {
+        id: session.user.id ?? session.user.email ?? '',
+        email: session.user.email ?? '',
+        name: session.user.name ?? undefined,
+        image: session.user.image ?? undefined,
+      }
+    : null;
 
   const signOut = useCallback(async () => {
-    try {
-      await fetch(`${API_URL}/auth/logout`, {
-        method: 'POST',
-        credentials: 'include',
-      });
-    } finally {
-      setUser(null);
-    }
+    await nextSignOut({ callbackUrl: '/signin' });
   }, []);
 
   const value = useMemo(
-    () => ({ user, loading, signOut }),
-    [user, loading, signOut],
+    () => ({ user, loading: status === 'loading', signOut }),
+    [user, status, signOut],
   );
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+export function AuthProvider({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <SessionProvider>
+      <AuthState>{children}</AuthState>
+    </SessionProvider>
+  );
 }
 
 export function useAuth() {

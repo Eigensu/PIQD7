@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { API_URL } from '../lib/api';
+import { signIn } from 'next-auth/react';
 import { GoogleLogo } from './icons';
 
 type Mode = 'register' | 'signin';
@@ -162,9 +162,13 @@ export function AuthForm({ mode }: { mode: Mode }) {
 
           <div className="divider">or continue with</div>
           <div className="alt-actions">
-            <a className="alt-btn" href={`${API_URL}/auth/google`}>
+            <button
+              className="alt-btn"
+              type="button"
+              onClick={() => signIn('google', { callbackUrl: '/brands' })}
+            >
               <GoogleLogo /> Continue with Google
-            </a>
+            </button>
           </div>
 
           <div className="switch-link">

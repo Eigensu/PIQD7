@@ -47,8 +47,8 @@ export function Header() {
                 </Link>
               ))}
               <div className="nav-user">
-                {user.picture ? (
-                  <img src={user.picture} alt="" referrerPolicy="no-referrer" />
+                {user.image ? (
+                  <img src={user.image} alt="" referrerPolicy="no-referrer" />
                 ) : (
                   <span className="avatar-fallback" aria-hidden="true">
                     {(user.name ?? user.email).charAt(0).toUpperCase()}
