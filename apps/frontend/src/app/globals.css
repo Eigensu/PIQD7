@@ -1451,12 +1451,11 @@ em {
 
 /* ---------- register / sign in ---------- */
 .layout {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 24px 16px;
-  background: var(--ivory);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  min-height: calc(100vh - 89px);
+  padding: 16px;
 }
 .promo {
   display: flex;
@@ -1532,7 +1531,9 @@ em {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  padding: 24px 32px;
+  border-radius: var(--r-xl);
+  background: var(--wash);
 }
 .form-card {
   width: 100%;
@@ -1698,7 +1699,18 @@ em {
 
 @media (max-width: 900px) {
   .layout {
-    padding: 16px;
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 12px;
+  }
+  .promo {
+    padding: 40px 24px;
+  }
+  .promo-steps {
+    margin-top: 28px;
+  }
+  .form-side {
+    padding: 36px 20px;
   }
 }
 

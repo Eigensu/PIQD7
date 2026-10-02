@@ -14,8 +14,6 @@ const links = [
   { href: '/edit', label: 'Your Edit', count: true },
 ];
 
-const AUTH_ROUTES = ['/signin', '/register'];
-
 export function Header() {
   const pathname = usePathname();
   const { edit } = useSite();
@@ -23,8 +21,6 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => setOpen(false), [pathname]);
-
-  if (AUTH_ROUTES.includes(pathname)) return null;
 
   return (
     <header className="site-header">

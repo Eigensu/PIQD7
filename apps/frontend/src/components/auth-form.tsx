@@ -41,6 +41,35 @@ export function AuthForm({ mode }: { mode: Mode }) {
 
   return (
     <div className="layout">
+      <section className="promo">
+        <div>
+          <div className="eyebrow">Drop 01 / seven independent brands</div>
+          <h1>
+            {c.h1[0]}
+            <br />
+            {c.h1[1]}
+            <br />
+            <em>{c.h1[2]}</em>
+          </h1>
+          <p>{c.lead}</p>
+          <div className="promo-steps">
+            <div className="promo-step active">
+              <span className="dot">1</span>
+              <span className="step-label">
+                {register ? 'Create your account' : 'Sign in'}
+              </span>
+            </div>
+            <div className="promo-step">
+              <span className="dot">2</span>
+              <span className="step-label">
+                Discover this week&rsquo;s drop
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="promo-foot">{c.step}</div>
+      </section>
+
       <section className="form-side">
         <div className="form-card">
           <h2>{c.title}</h2>
