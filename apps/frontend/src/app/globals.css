@@ -1461,7 +1461,7 @@ em {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 60px 56px;
+  padding: 40px 44px;
   border-radius: var(--r-xl);
   color: var(--ivory);
   background: var(--ink);
@@ -1471,8 +1471,8 @@ em {
 }
 .promo h1 {
   max-width: 440px;
-  margin: 24px 0 18px;
-  font: 600 clamp(38px, 4vw, 58px) / 1.04 var(--display);
+  margin: 18px 0 12px;
+  font: 600 clamp(28px, 3.2vw, 46px) / 1.04 var(--display);
   letter-spacing: -0.025em;
 }
 .promo h1 em {
@@ -1481,29 +1481,29 @@ em {
 .promo p {
   max-width: 360px;
   color: rgba(248, 244, 237, 0.68);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 300;
-  line-height: 1.7;
+  line-height: 1.65;
 }
 .promo-steps {
   display: grid;
-  gap: 14px;
-  margin-top: 40px;
+  gap: 10px;
+  margin-top: 24px;
 }
 .promo-step {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 .promo-step .dot {
   display: grid;
   flex-shrink: 0;
   place-items: center;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border: 1px solid rgba(248, 244, 237, 0.4);
   border-radius: 50%;
-  font: 500 11px var(--label);
+  font: 500 10px var(--label);
 }
 .promo-step.active .dot {
   color: var(--ivory);
@@ -1512,7 +1512,7 @@ em {
 }
 .promo-step .step-label {
   color: rgba(248, 244, 237, 0.85);
-  font: 400 13px var(--sans);
+  font: 400 12px var(--sans);
   letter-spacing: 0;
   text-transform: none;
 }
@@ -1531,44 +1531,44 @@ em {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: 24px 32px;
   border-radius: var(--r-xl);
   background: var(--wash);
 }
 .form-card {
   width: 100%;
-  max-width: 420px;
+  max-width: 400px;
 }
 .form-card h2 {
-  margin: 0 0 8px;
-  font: 600 38px var(--display);
+  margin: 0 0 6px;
+  font: 600 28px var(--display);
   letter-spacing: -0.02em;
 }
 .form-card .sub {
-  margin: 0 0 30px;
+  margin: 0 0 18px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 300;
-  line-height: 1.65;
+  line-height: 1.6;
 }
 .field {
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
 .field label {
   display: block;
-  margin: 0 0 8px 6px;
-  font: 600 10.5px var(--label);
+  margin: 0 0 6px 6px;
+  font: 600 10px var(--label);
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 .field input {
   width: 100%;
-  padding: 15px 20px;
+  padding: 11px 16px;
   border: 2px solid transparent;
   border-radius: var(--r-md);
   color: var(--ink);
   background: var(--ivory);
-  font: 14px var(--sans);
+  font: 13px var(--sans);
   transition:
     border-color 0.2s,
     transform 0.35s var(--spring);
@@ -1581,29 +1581,29 @@ em {
 .field-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 12px;
 }
 .hint {
-  margin: 6px 0 0 6px;
+  margin: 4px 0 0 6px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 10px;
 }
 .checkbox-row {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  margin: 20px 0 26px;
+  margin: 14px 0 18px;
 }
 .checkbox-row input {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   margin-top: 3px;
   accent-color: var(--mulberry);
 }
 .checkbox-row label {
   color: var(--muted);
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: 11px;
+  line-height: 1.55;
 }
 .checkbox-row strong {
   color: var(--ink);
@@ -1615,18 +1615,18 @@ em {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  padding: 18px;
+  padding: 13px;
   border: 2px solid var(--mulberry);
   border-radius: var(--pill);
   color: var(--ivory);
   background: var(--mulberry);
-  box-shadow: 0 5px 0 var(--mulberry-deep);
-  font-size: 14px;
+  box-shadow: 0 4px 0 var(--mulberry-deep);
+  font-size: 13px;
   font-weight: 600;
 }
 .submit-btn:hover {
   transform: translateY(-3px) rotate(-0.8deg) scale(1.02);
-  box-shadow: 0 8px 0 var(--mulberry-deep);
+  box-shadow: 0 7px 0 var(--mulberry-deep);
 }
 .submit-btn:active {
   transform: translateY(3px) scale(0.98);
@@ -1636,7 +1636,7 @@ em {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 26px 0;
+  margin: 16px 0;
   color: var(--muted);
   font: 500 10px var(--label);
   letter-spacing: 0.16em;
@@ -1652,18 +1652,18 @@ em {
 }
 .alt-actions {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 .alt-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 15px;
+  padding: 11px;
   border: 2px solid var(--ink);
   border-radius: var(--pill);
   color: var(--ink);
   background: transparent;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   transition:
     background 0.2s,
@@ -1674,9 +1674,9 @@ em {
   transform: translateY(-2px) scale(1.02);
 }
 .switch-link {
-  margin-top: 26px;
+  margin-top: 16px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
   text-align: center;
 }
 .switch-link a {
